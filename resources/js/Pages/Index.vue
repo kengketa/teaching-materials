@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <div>
-            mfdsjfjsdhjfg
+            container zone
         </div>
     </Layout>
 </template>

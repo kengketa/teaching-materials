@@ -64,7 +64,7 @@ export default {
         availableNavs() {
             const navs = [];
             navs.push(this.navs.dashboard);
-            navs.push(this.navs.announcements);
+            //navs.push(this.navs.announcements);
             return navs;
         }
     },

@@ -10,6 +10,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+
 class Applicant extends Model
 {
     use HasFactory;
@@ -61,6 +62,33 @@ class Applicant extends Model
         'references' => 'json'
     ];
 
+
+//    public function registerMediaCollections(): void
+//    {
+//        $this->addMediaCollection(self::MEDIA_COLLECTION_PHOTO)->singleFile()
+//            ->registerMediaConversions(function (Media $media) {
+//                $this
+//                    ->addMediaConversion('optimized')
+//                    ->fit(Manipulations::FIT_MAX, 600, 600)
+//                    ->optimize()
+//                    ->keepOriginalImageFormat();
+//            });
+//    }
+
+//    public function scopeFilter(Builder $query, array $filters): void
+//    {
+//        if (isset($filters['school_id']) && $filters['school_id'] != null) {
+//            $query->where('school_id', $filters['school_id']);
+//        }
+//        if (isset($filters['search']) && $filters['search'] != null) {
+//            $searchTerm = $filters['search'];
+//            $query->where(function ($query) use ($searchTerm) {
+//                $query->where('first_name', 'LIKE', "%$searchTerm%")
+//                    ->orWhere('last_name', 'LIKE', "%$searchTerm%")
+//                    ->orWhere('passport_number', 'LIKE', "%$searchTerm%");
+//            });
+//        }
+//    }
 
     public function registerMediaCollections(): void
     {

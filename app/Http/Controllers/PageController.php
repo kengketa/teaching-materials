@@ -12,9 +12,11 @@ use App\Models\User;
 
 class PageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $filters = $request->only('search');
         $subjects = Subject::with('professors')
+            ->filter($filters)
             ->whereNotNull('published_at')
             ->orderBy('published_at', 'desc')
             ->paginate(20);

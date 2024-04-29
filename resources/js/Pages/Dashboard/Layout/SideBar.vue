@@ -50,11 +50,17 @@ export default {
                     icon: HomeIcon,
                     routeGroup: 'dashboard.index',
                 },
-                announcements: {
-                    name: 'Announcement',
-                    href: this.route('dashboard.announcements.index'),
+                // announcements: {
+                //     name: 'Announcement',
+                //     href: this.route('dashboard.announcements.index'),
+                //     icon: HomeIcon,
+                //     routeGroup: 'dashboard.announcements.*',
+                // },
+                subjects: {
+                    name: 'Subject',
+                    href: this.route('dashboard.subjects.index'),
                     icon: HomeIcon,
-                    routeGroup: 'dashboard.announcements.*',
+                    routeGroup: 'dashboard.subjects.*',
                 }
             }
 
@@ -64,7 +70,7 @@ export default {
         availableNavs() {
             const navs = [];
             navs.push(this.navs.dashboard);
-            //navs.push(this.navs.announcements);
+            navs.push(this.navs.subjects);
             return navs;
         }
     },

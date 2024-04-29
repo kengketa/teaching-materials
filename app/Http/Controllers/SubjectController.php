@@ -6,6 +6,7 @@ use App\Http\Transformers\SubjectTransformer;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Session;
 
 class SubjectController extends Controller
 {
@@ -20,8 +21,22 @@ class SubjectController extends Controller
             abort(403, 'unauthorized.');
         }
         $subjectData = fractal($subject, new SubjectTransformer())->toArray();
+        $userIp = (string)request()->ip();
+        $transformUserIP = str_replace('.', '_', $userIp);
+        if (!$this->checkSessionByIp($transformUserIP, $subject->id)) {
+            $subject->increment('view');
+        }
+        Session::put($transformUserIP, $subject->id);
         return Inertia::render('Subject/Show')->with([
             'subject' => $subjectData
         ]);
+    }
+
+    private function checkSessionByIp($transformUserIP, $subjectId)
+    {
+        if (Session::get($transformUserIP) === $subjectId) {
+            return true;
+        }
+        return false;
     }
 }

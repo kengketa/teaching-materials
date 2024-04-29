@@ -24,10 +24,12 @@ class SubjectSeeder extends Seeder
         $subject = Subject::first();
         $subject->professors()->attach(Professor::first()->id ?? Professor::factory());
 
-        Subject::factory()->count(100)->create();
+        Subject::factory()->count(20)->create();
         $subjects = Subject::all();
         foreach ($subjects as $subject) {
             $subject->professors()->attach(Professor::inRandomOrder()->first()->id);
+            $subject->addMedia(storage_path('seed/mock_subject_image.jpeg'))->preservingOriginal()
+                ->toMediaCollection(Subject::MEDIA_COLLECTION_IMAGE);
         }
     }
 }

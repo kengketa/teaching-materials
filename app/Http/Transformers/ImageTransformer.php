@@ -5,7 +5,7 @@ namespace App\Http\Transformers;
 use League\Fractal\TransformerAbstract;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class SubjectImageTransformer extends TransformerAbstract
+class ImageTransformer extends TransformerAbstract
 {
     public function transform(Media $media): array
     {

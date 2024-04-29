@@ -10,6 +10,7 @@ use League\Fractal\TransformerAbstract;
 
 class ProfessorTransformer extends TransformerAbstract
 {
+    protected array $availableIncludes = ['image'];
 
     public function transform(Professor $professor): array
     {
@@ -21,6 +22,12 @@ class ProfessorTransformer extends TransformerAbstract
             'last_name' => $professor->last_name,
         ];
         return $data;
+    }
+
+    public function includeImage(Professor $professor)
+    {
+        $images = $professor->getMedia(Professor::MEDIA_COLLECTION_IMAGE);
+        return $this->collection($images, new ImageTransformer());
     }
 
 

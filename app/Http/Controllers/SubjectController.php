@@ -27,7 +27,7 @@ class SubjectController extends Controller
         }
         Session::put($transformUserIP, $subject->id);
         $subject->fresh();
-        $subjectData = fractal($subject, new SubjectTransformer())->toArray();
+        $subjectData = fractal($subject, new SubjectTransformer())->includeImage()->toArray();
         return Inertia::render('Subject/Show')->with([
             'subject' => $subjectData
         ]);

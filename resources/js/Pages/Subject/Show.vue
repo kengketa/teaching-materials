@@ -2,8 +2,15 @@
     <Layout>
         <div class="w-full grid grid-cols-12 gap-4">
             <div class="col-span-4">
-                <div class="w-full px-20">
-                    <img class="w-full object-cover" src="https://www.aru.ac.th/aru-tm/images/IMG_E4314.jpg">
+                <div class="w-full px-20 grid grid-cols-2 gap-2">
+                    <div v-for="(professor,index) in subject.professors"
+                         :class="subject.professors.length === 1 ?'col-span-2 row-span-2':''"
+                    >
+                        <img v-if="professor.image.data.length > 0"
+                             :src="professor.image.data[0].url"
+                             class="w-full object-cover">
+                    </div>
+
                 </div>
             </div>
             <div class="col-span-8">

@@ -22,7 +22,8 @@ class SubjectTransformer extends TransformerAbstract
             'view' => $subject->view,
             'unit' => $subject->unit,
             'description' => $subject->description,
-            'professors' => fractal($subject->professors, new ProfessorTransformer())->toArray()['data'],
+            'professors' => fractal($subject->professors, new ProfessorTransformer())->includeImage()
+                ->toArray()['data'],
             'published_at' => $subject->published_at ? Carbon::parse($subject->published_at)->thaidate('j M Y') : null
         ];
         return $data;
@@ -31,7 +32,7 @@ class SubjectTransformer extends TransformerAbstract
     public function includeImage(Subject $subject)
     {
         $images = $subject->getMedia(Subject::MEDIA_COLLECTION_IMAGE);
-        return $this->collection($images, new SubjectImageTransformer());
+        return $this->collection($images, new ImageTransformer());
     }
 
 

@@ -16,6 +16,7 @@ class Subject extends Model implements HasMedia
     use InteractsWithMedia;
 
     public const MEDIA_COLLECTION_IMAGE = 'image';
+    public const MEDIA_COLLECTION_DOCUMENTS = 'documents';
 
     protected $fillable = [
         'name_th',
@@ -41,6 +42,8 @@ class Subject extends Model implements HasMedia
                     ->optimize()
                     ->keepOriginalImageFormat();
             });
+
+        $this->addMediaCollection(self::MEDIA_COLLECTION_DOCUMENTS);
     }
 
     public function professors()

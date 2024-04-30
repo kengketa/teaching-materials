@@ -16,6 +16,15 @@ class DepartmentSeeder extends Seeder
         Department::factory()->create([
             'name' => 'คณะวิทยาการจัดการ'
         ]);
-        Department::factory()->count(20)->create();
+        Department::factory()->create([
+            'name' => 'คณะครุศาสตร์'
+        ]);
+        Department::factory()->create([
+            'name' => 'คณะมนุษยศาสตร์และสังคมศาสตร์'
+        ]);
+        Department::factory()->create([
+            'name' => 'คณะวิทยาศาสตร์และเทคโนโลยี'
+        ]);
+        //Department::factory()->count(20)->create();
     }
 }

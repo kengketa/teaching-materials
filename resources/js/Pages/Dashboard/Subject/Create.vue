@@ -1,177 +1,210 @@
 <template>
     <Layout>
-        <div>
-            <h6 class="text-md">กรอกเอกสารประกอบการสอน</h6>
-        </div>
-
-
-
-      
-        <div class="border-b border-gray-900/10 pb-12">          
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">           
-
-                <div class="sm:col-span-2">
-                    <label class="block text-sm font-medium leading-6 text-gray-900"
-                           for="prefix">คำนำหน้าชื่อ</label>
-                    <div class="mt-2">
-                        <input id="prefix" 
-                               autocomplete="given-name"
-                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ps-4"
-                               name="prefix"
-                               type="text"/>
+        <form class="w-full grid grid-cols-3 gap-4" @submit.prevent="submit">
+            <div class="col-span-3 w-full">
+                <button class="w-60 h-72 border border-dashed flex items-center justify-center"
+                        type="button" @click="$refs.imageInputRef.click()">
+                    <div v-if="displaySubjectImage === null">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
-                </div>
-
-                <div class="sm:col-span-2">
-                    <label class="block text-sm font-medium leading-6 text-gray-900"
-                           for="first-name">ชื่อ</label>
-                    <div class="mt-2">
-                        <input id="first-name" 
-                               autocomplete="given-name"
-                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ps-4"
-                               name="first-name"
-                               type="text"/>
-                    </div>
-                </div>
-
-                <div class="sm:col-span-2">
-                    <label class="block text-sm font-medium leading-6 text-gray-900"
-                           for="last-name">นามสกุล</label>
-                    <div class="mt-2">
-                        <input id="last-name"
-                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ps-4"
-                               name="last-name"
-                               type="text"/>
-                    </div>
-                </div>
+                    <img v-if="displaySubjectImage!=null" :src="displaySubjectImage" class="w-full h-72 object-cover">
+                </button>
+                <input ref="imageInputRef" accept="image/*" class="hidden" type="file" @change="handleSubjectImage">
             </div>
+            <div class="w-full">
+                <label class="form-control">
+                    <div class="label">
+                        <span class="label-text">รหัสวิชา</span>
+                    </div>
+                    <input v-model="form.code" class="input input-bordered" placeholder="รหัสวิชา" type="text"/>
+                </label>
+            </div>
+            <div class="w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">ชื่อวิชา(ภาษาไทย)</span>
+                    </div>
+                    <input v-model="form.name_th" class="input input-bordered w-full" placeholder="ชื่อวิชา(ภาษาไทย)"
+                           type="text"/>
+                </label>
+            </div>
+            <div class="w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">ชื่อวิชา(ภาษาอังกฤษ)</span>
+                    </div>
+                    <input v-model="form.name_en" class="input input-bordered w-full" placeholder="ชื่อวิชา(ภาษาอังกฤษ)"
+                           type="text"/>
+                </label>
+            </div>
+            <div class="w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">หน่วยกิต</span>
+                    </div>
+                    <input v-model="form.unit" class="input input-bordered w-full" placeholder="เช่น 3(3-0-6)"
+                           type="text"/>
+                </label>
+            </div>
+            <div class="w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">วันที่เผยแพร่</span>
+                    </div>
+                    <input v-model="form.published_at" class="input input-bordered w-full" placeholder="" type="date"/>
+                </label>
+            </div>
+            <div class="col-span-3 w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">คำอธิบายรายวิชา</span>
+                    </div>
+                    <textarea v-model="form.description" class="textarea textarea-bordered textarea-md w-full"
+                              placeholder="Bio"
+                              rows="5"></textarea>
+                </label>
 
-            <div class="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <div class="sm:col-span-3">
-                    <div class="flex-1 min-w-0">
-                    <label class="form-control w-full max-w-xs">
-                        <div class="label">
-                            <span class="label-text">คณะ</span> <!-- "Faculty" in Thai -->
+            </div>
+            <div class="col-span-3 w-full">
+                <label class="form-control w-full">
+                    <div class="label">
+                        <span class="label-text">เลือกอาจารย์</span>
+                    </div>
+                    <select v-model="currentSelectingProfessor" class="select select-bordered"
+                            @change="handSelectProfessor">
+                        <option value="">เลือกอาจารย์</option>
+                        <option v-for="professor in professors" :key="professor.id" :value="professor">
+                            {{ professor.prefix }} {{ professor.first_name }} {{ professor.last_name }}
+                        </option>
+                    </select>
+                </label>
+                <div v-if="form.professors.length > 0" class="w-full flex gap-4 mt-4">
+                    <div v-for="professor in form.professors" :key="professor.id"
+                         class="w-40 border flex flex-col pb-2 relative">
+                        <img v-if="professor.image" :src="professor.image.data[0].url" class="object-cover w-full h-40">
+                        <div class="text-xs text-center leading-4 mt-2">
+                            <p>
+                                {{ professor.prefix }} {{ professor.first_name }} {{ professor.last_name }}
+                            </p>
+                            <p>{{ professor.department.name }}</p>
                         </div>
-                        <select class="select select-bordered" aria-label="Choose Faculty">
-                            <option disabled selected>Pick one</option>
-                            <option>Star Wars</option>
-                            <option>Harry Potter</option>
-                            <option>Lord of the Rings</option>
-                            <option>Planet of the Apes</option>
-                            <option>Star Trek</option>
-                        </select>
-                    </label>
+                        <button class="absolute top-1 right-1 text-red-500" type="button">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                            </svg>
+                        </button>
                     </div>
-                </div>
-             
-                <div class="sm:col-span-3">
-                    <div class="flex-1 min-w-0">
-                    <label class="form-control w-full max-w-xs">
-                        <div class="label">
-                            <span class="label-text">รูปภาพอาจารย์ผู้สอน</span>
-                        </div>
-                        <input type="file" class="input input-bordered" accept="image/*">
-                    </label>
-                    </div>
+
                 </div>
             </div>
-        </div>
-
-        <div class="border-b border-gray-900/10 pb-12">
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                <div class="sm:col-span-3">
-                    <label class="block text-sm font-medium leading-6 text-gray-900"
-                           for="prefix">รายวิชา </label>
-                    <div class="mt-2">
-                        <input id="prefix" 
-                               autocomplete="given-name"
-                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ps-4"
-                               name="prefix"
-                               type="text"/>
-                    </div>
-                </div>
-
-                <div class="sm:col-span-3">
-                    <label class="block text-sm font-medium leading-6 text-gray-900"
-                           for="first-name">ชื่อวิชา</label>
-                    <div class="mt-2">
-                        <input id="first-name" 
-                               autocomplete="given-name"
-                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ps-4"
-                               name="first-name"
-                               type="text"/>
-                    </div>
-                </div>
-
+            <div class="col-span-3 w-full flex gap-2">
+                <span class="label-text">เอกสาร</span>
             </div>
-
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                
-                <div class="sm:col-span-3">
-                    <label class="block text-sm font-medium leading-6 text-gray-900"
-                           for="last-name">อาจารย์ผู้สอน: </label>
-                    <div>
-                        <input id="last-name"
-                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ps-4"
-                               name="last-name"
-                               type="text"/>
+            <div class="col-span-3 w-full flex gap-2">
+                <div class="w-40 border flex flex-col pb-2 relative">
+                    <div class="h-24 flex items-center justify-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"/>
+                        </svg>
                     </div>
+                    <div class="text-xs text-center leading-4 mt-2">
+                        <p>ชื่อ file sdjhf sdjfhsd.pdf</p>
+                    </div>
+                    <button class="absolute top-1 right-1 text-red-500" type="button">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
-
-                <div class="sm:col-span-3">                  
-                    <div>
-                        <label for="datePicker" class="block text-sm font-medium text-gray-700">วันที่เผยแพร่</label>
-                        <input type="date" id="datePicker" name="datePicker" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                </div>             
+                <button class="w-40 border border-dashed flex flex-col pb-2 justify-center items-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
             </div>
-            <div class="col-span-full mt-4">
-                    <label class="block text-sm font-medium leading-6 text-gray-900"
-                           for="about">คำอธิบายรายวิชา</label>
-                    <div class="mt-2">
-                        <textarea id="about"
-                                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ps-4"
-                                  name="about"
-                                  rows="3"/>
-                    </div>
-                </div>
-
-                <div class="sm:col-span-3 mt-4">
-                    <div class="flex-1 min-w-0">
-                    <label class="form-control w-full max-w-xs">
-                        <div class="label">
-                            <span class="label-text">ไฟล์เอกสาร</span>
-                        </div>
-                        <input type="file" class="input input-bordered" accept="image/*">
-                    </label>
-                    </div>
-                </div>
-
-                
-         
-       
-            
-        
-          
-
-        </div>
-
-
-     
-     
-
-       
+            <div class="col-span-3 w-full flex justify-end">
+                <button class="uppercase btn btn-primary">Submit</button>
+            </div>
+        </form>
     </Layout>
 </template>
 
 <script>
 import Layout from "@/Pages/Dashboard/Layout/Layout.vue";
+import {router} from '@inertiajs/vue3'
 
 export default {
     name: "SubjectCreate",
     components: {
         Layout
+    },
+    props: {
+        professors: {
+            type: Array,
+            required: true
+        }
+    },
+    data() {
+        return {
+            form: {
+                image: null,
+                code: null,
+                name_th: null,
+                name_en: null,
+                unit: null,
+                published_at: null,
+                description: null,
+                professors: [],
+                documents: []
+            },
+            displaySubjectImage: null,
+            currentSelectingProfessor: ""
+        }
+    },
+    mounted() {
+
+    },
+    methods: {
+        handSelectProfessor() {
+            this.form.professors.push(this.currentSelectingProfessor);
+            this.currentSelectingProfessor = "";
+        },
+        handleSubjectImage(event) {
+            const image = event.target.files[0];
+            this.form.image = image;
+            const blob = new Blob([image], {type: image.type});
+            const blobUrl = URL.createObjectURL(blob);
+            this.displaySubjectImage = blobUrl;
+        },
+        submit() {
+            const url = this.route('dashboard.subjects.store');
+            router.post(url, {
+                _method: 'post',
+                name_th: form.name_th,
+            })
+        }
+    },
+    watch: {
+        form: {
+            handler: function () {
+                console.log('-----------------');
+                console.log(this.form);
+                console.log('-----------------');
+            },
+            deep: true
+        }
     }
 }
 </script>

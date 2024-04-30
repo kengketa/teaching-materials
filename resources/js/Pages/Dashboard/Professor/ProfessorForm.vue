@@ -106,9 +106,6 @@ export default {
         this.form.last_name = this.professor.last_name;
         this.form.department_id = this.professor.department_id;
 
-        console.log('-----------------');
-        console.log(this.professor);
-        console.log('-----------------');
     },
     methods: {
         handleSubjectImage(event) {

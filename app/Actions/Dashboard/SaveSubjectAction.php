@@ -49,7 +49,7 @@ class SaveSubjectAction
     private function uploadSubjectDocuments($documents): void
     {
         foreach ($documents as $document) {
-            if ($documents instanceof UploadedFile) {
+            if ($document instanceof UploadedFile) {
                 $this->subject->addMedia($document)->toMediaCollection(Subject::MEDIA_COLLECTION_DOCUMENTS);
             }
         }

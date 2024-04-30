@@ -10,7 +10,7 @@
             </div>
             <Link
                 class="text-blue-600 px-1 py-0.5 border-blue-600 border-l-0 border-r-0 border-t-0 border-2 font-bold hidden lg:block"
-                href="#">
+                :href="route('index')">
                 Home
             </Link>
         </div>

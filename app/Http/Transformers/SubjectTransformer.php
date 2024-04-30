@@ -15,6 +15,7 @@ class SubjectTransformer extends TransformerAbstract
     public function transform(Subject $subject): array
     {
         $data = [
+            'raw_id' => $subject->id,
             'id' => $subject->uuid,
             'uuid' => $subject->uuid,
             'name_th' => $subject->name_th,
@@ -25,7 +26,9 @@ class SubjectTransformer extends TransformerAbstract
             'description' => $subject->description,
             'professors' => fractal($subject->professors, new ProfessorTransformer())->includeImage()
                 ->toArray()['data'],
-            'published_at' => $subject->published_at ? Carbon::parse($subject->published_at)->thaidate('j M Y') : null
+            'published_at' => $subject->published_at,
+            'display_published_at' => $subject->published_at ? Carbon::parse($subject->published_at)
+                ->thaidate('j M Y') : null,
         ];
         return $data;
     }

@@ -16,7 +16,11 @@ class SubjectController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Dashboard/Subject/Index')->with([]);
+        $subjects = Subject::orderBy('published_at', 'desc')->paginate(20);
+        $subjectData = fractal($subjects, new SubjectTransformer())->includeImage()->toArray();
+        return Inertia::render('Dashboard/Subject/Index')->with([
+            'subjects' => $subjectData
+        ]);
     }
 
     public function create()

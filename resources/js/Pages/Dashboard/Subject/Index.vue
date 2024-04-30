@@ -1,5 +1,8 @@
 <template>
     <Layout>
+        <div class="flex justify-end">
+            <Link :href="route('dashboard.subjects.create')" class="uppercase btn btn-primary">New Subject</Link>
+        </div>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                 <thead class="text-gray-700 uppercase bg-gray-50 ">

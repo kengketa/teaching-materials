@@ -9,6 +9,7 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Str;
 
 class Subject extends Model implements HasMedia
 {
@@ -26,11 +27,20 @@ class Subject extends Model implements HasMedia
         'unit',
         'published_at',
         'view',
+        'uuid'
     ];
     protected $casts = [
         'published_at' => 'datetime',
         'view' => 'integer',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($subject) {
+            $subject->uuid = Str::uuid();
+        });
+    }
 
     public function registerMediaCollections(): void
     {

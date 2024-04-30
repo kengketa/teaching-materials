@@ -15,7 +15,8 @@ class SubjectTransformer extends TransformerAbstract
     public function transform(Subject $subject): array
     {
         $data = [
-            'id' => $subject->id,
+            'id' => $subject->uuid,
+            'uuid' => $subject->uuid,
             'name_th' => $subject->name_th,
             'name_en' => $subject->name_en,
             'code' => $subject->code,

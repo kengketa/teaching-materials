@@ -17,6 +17,7 @@ class SubjectFactory extends Factory
     public function definition(): array
     {
         return [
+            'uuid' => $this->faker->uuid,
             'name_th' => $this->faker->sentence,
             'name_en' => $this->faker->sentence,
             'code' => strtoupper(

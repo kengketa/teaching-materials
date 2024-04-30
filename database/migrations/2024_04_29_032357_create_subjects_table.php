@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->index();
             $table->text('name_th');
             $table->text('name_en');
             $table->string('code');

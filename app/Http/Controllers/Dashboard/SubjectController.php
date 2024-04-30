@@ -23,4 +23,9 @@ class SubjectController extends Controller
             'professors' => $professorData
         ]);
     }
+
+    public function store(Request $request)
+    {
+        dd($request->all());
+    }
 }

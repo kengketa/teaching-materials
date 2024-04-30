@@ -82,7 +82,7 @@
                     </select>
                 </label>
                 <div v-if="form.professors.length > 0" class="w-full flex gap-4 mt-4">
-                    <div v-for="professor in form.professors" :key="professor.id"
+                    <div v-for="(professor,professorIndex) in form.professors" :key="professor.id"
                          class="w-40 border flex flex-col pb-2 relative">
                         <img v-if="professor.image" :src="professor.image.data[0].url" class="object-cover w-full h-40">
                         <div class="text-xs text-center leading-4 mt-2">
@@ -91,7 +91,8 @@
                             </p>
                             <p>{{ professor.department.name }}</p>
                         </div>
-                        <button class="absolute top-1 right-1 text-red-500" type="button">
+                        <button class="absolute top-1 right-1 text-red-500" type="button"
+                                @click="handleRemoveProfessor(professorIndex)">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
                                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round"
@@ -106,33 +107,40 @@
                 <span class="label-text">เอกสาร</span>
             </div>
             <div class="col-span-3 w-full flex gap-2">
-                <div class="w-40 border flex flex-col pb-2 relative">
-                    <div class="h-24 flex items-center justify-center">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
-                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"/>
-                        </svg>
+                <div v-if="form.documents.length > 0" class="flex gap-2">
+                    <div v-for="(doc,index) in form.documents" :key="index"
+                         class="w-40 h-40 border flex flex-col pb-2 relative">
+                        <div class="h-24 flex items-center justify-center">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="text-xs text-center leading-4 mt-2">
+                            <p>{{ doc.name }}</p>
+                        </div>
+                        <button class="absolute top-1 right-1 text-red-500" type="button"
+                                @click="handleRemoveDocument(index)">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
+                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                            </svg>
+                        </button>
                     </div>
-                    <div class="text-xs text-center leading-4 mt-2">
-                        <p>ชื่อ file sdjhf sdjfhsd.pdf</p>
-                    </div>
-                    <button class="absolute top-1 right-1 text-red-500" type="button">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
-                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                        </svg>
-                    </button>
                 </div>
-                <button class="w-40 border border-dashed flex flex-col pb-2 justify-center items-center">
+                <button class="w-40 h-40 border border-dashed flex flex-col pb-2 justify-center items-center"
+                        type="button" @click="$refs.documentInputRef.click()">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5"
                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
+                <input ref="documentInputRef" accept=".pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx"
+                       class="hidden" type="file" @change="handleSubjectDocument">
             </div>
             <div class="col-span-3 w-full flex justify-end">
                 <button class="uppercase btn btn-primary">Submit</button>
@@ -177,6 +185,16 @@ export default {
 
     },
     methods: {
+        handleRemoveDocument(index) {
+            this.form.documents.splice(index, 1);
+        },
+        handleSubjectDocument(event) {
+            const file = event.target.files[0];
+            this.form.documents.push(file);
+        },
+        handleRemoveProfessor(index) {
+            this.form.professors.splice(index, 1);
+        },
         handSelectProfessor() {
             this.form.professors.push(this.currentSelectingProfessor);
             this.currentSelectingProfessor = "";
@@ -192,7 +210,15 @@ export default {
             const url = this.route('dashboard.subjects.store');
             router.post(url, {
                 _method: 'post',
-                name_th: form.name_th,
+                image: this.form.image,
+                code: this.form.code,
+                name_th: this.form.name_th,
+                name_en: this.form.name_en,
+                unit: this.form.unit,
+                published_at: this.form.published_at,
+                description: this.form.description,
+                professors: this.form.professors,
+                documents: this.form.documents
             })
         }
     },

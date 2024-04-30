@@ -10,6 +10,7 @@
                     <th class="px-6 py-3">ชื่อวิชา</th>
                     <th class="px-6 py-3">วันที่เผยแพร่</th>
                     <th class="px-6 py-3">อาจารย์</th>
+                    <th class="px-6 py-3">Action</th>
                 </tr>
                 </thead>
                 <tbody v-if="subjectData!=null">
@@ -25,10 +26,10 @@
                         {{ subject.code }}
                     </td>
                     <td>
-                        <div>
+                        <Link :href="route('dashboard.subjects.edit',subject.raw_id)">
                             <p> {{ subject.name_th }}</p>
                             <p> {{ subject.name_en }}</p>
-                        </div>
+                        </Link>
 
                     </td>
                     <td>
@@ -41,7 +42,11 @@
                             </p>
                         </div>
                     </td>
-
+                    <td>
+                        <button class="btn btn-error text-white btn-sm" type="button">
+                            Delete
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>

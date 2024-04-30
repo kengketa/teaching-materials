@@ -20,6 +20,10 @@ class CreateOrUpdateSubjectRequest extends FormRequest
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:102400'],
             'documents.*' => ['required', 'mimes:pdf,ppt,pptx,doc,docx,xls,xlsx', 'max:102400'],
         ];
+        if (request()->method == 'PATCH') {
+            $rules['image'] = ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:102400'];
+            $rules['documents.*'] = ['nullable'];
+        }
         return $rules;
     }
 }

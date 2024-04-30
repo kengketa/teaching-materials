@@ -1,6 +1,6 @@
 <template>
     <Layout>
-        <SubjectForm :professors="professors" mode="create"/>
+        <SubjectForm :professors="professors" :subject="subject" mode="edit"/>
     </Layout>
 </template>
 
@@ -10,7 +10,7 @@ import {router} from '@inertiajs/vue3'
 import SubjectForm from "@/Pages/Dashboard/Subject/SubjectForm.vue";
 
 export default {
-    name: "SubjectCreate",
+    name: "EditSubject",
     components: {
         SubjectForm,
         Layout
@@ -18,6 +18,10 @@ export default {
     props: {
         professors: {
             type: Array,
+            required: true
+        },
+        subject: {
+            type: Object,
             required: true
         }
     }

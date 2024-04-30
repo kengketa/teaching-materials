@@ -15,8 +15,9 @@ class SubjectController extends Controller
         return redirect()->route('index');
     }
 
-    public function show(Subject $subject)
+    public function show(string $subject)
     {
+        $subject = Subject::where('uuid', $subject)->first();
         if ($subject->published_at === null) {
             abort(403, 'unauthorized.');
         }

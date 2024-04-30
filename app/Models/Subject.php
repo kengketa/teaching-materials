@@ -26,6 +26,7 @@ class Subject extends Model implements HasMedia
         'unit',
         'published_at',
         'view',
+        'uuid'
     ];
     protected $casts = [
         'published_at' => 'datetime',

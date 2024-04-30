@@ -8,11 +8,19 @@
                 <h1 class="text-4xl font-bold uppercase">ARU</h1>
                 <h1 class="text-4xl font-bold text-blue-600">Teaching Materials</h1>
             </div>
-            <Link
-                class="text-blue-600 px-1 py-0.5 border-blue-600 border-l-0 border-r-0 border-t-0 border-2 font-bold hidden lg:block"
-                :href="route('index')">
-                Home
-            </Link>
+            <div class="flex gap-2">
+                <Link
+                    :href="route('index')"
+                    class="text-blue-600 px-1 py-0.5 border-blue-600 border-l-0 border-r-0 border-t-0 border-2 font-bold hidden lg:block">
+                    Home
+                </Link>
+                <Link
+                    :href="route('login')"
+                    class="text-blue-600 px-1 py-0.5 border-blue-600 border-l-0 border-r-0 border-t-0 border-2 font-bold hidden lg:block">
+                    Login
+                </Link>
+            </div>
+
         </div>
     </div>
 </template>

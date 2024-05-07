@@ -42,7 +42,7 @@ composer install
 
 ```
 php artisan key:generate
-php aritsan migrate:fresh --seed
+php artisan migrate:fresh --seed
 ```
 
 ## exit container

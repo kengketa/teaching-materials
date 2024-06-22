@@ -20,6 +20,7 @@ if (Features::enabled(Features::registration())) {
 
 Route::get('/', [PageController::class, 'index'])->name('index');
 Route::get('/print', [PageController::class, 'print'])->name('print');
+Route::get('/export', [PageController::class, 'export'])->name('export');
 
 Route::resource('/subjects', SubjectController::class);
 //Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\ArrayExporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class PageController extends Controller
@@ -65,6 +67,16 @@ class PageController extends Controller
 
         $pdf = Pdf::loadView('pdf.document', $data);
         return $pdf->download('document.pdf');
+    }
+
+    public function export()
+    {
+        $data = [
+            ['Name', 'Email', 'Created At'],
+            ['John Doe', 'john@example.com', '2024-01-01'],
+            ['Jane Smith', 'jane@example.com', '2024-01-02'],
+        ];
+        return Excel::download(new ArrayExporter($data), 'test-export.xlsx');
     }
 
 //    public function login()

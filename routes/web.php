@@ -19,6 +19,8 @@ if (Features::enabled(Features::registration())) {
 
 
 Route::get('/', [PageController::class, 'index'])->name('index');
+Route::get('/print', [PageController::class, 'print'])->name('print');
+
 Route::resource('/subjects', SubjectController::class);
 //Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 //Route::get('/get-all-announcements-type', [AnnouncementController::class, 'getAllAnnouncementTypes'])->name(

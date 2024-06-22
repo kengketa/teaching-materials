@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class PageController extends Controller
 {
@@ -52,6 +54,17 @@ class PageController extends Controller
         $newUser = $userAction->execute(new User(), $request->all());
         Auth::login($newUser);
         return redirect()->route('index');
+    }
+
+    public function print()
+    {
+        $data = [
+            'title' => 'สวัสดีครับ',
+            'content' => 'นี่คือเอกสาร PDF ที่สร้างขึ้นโดยใช้ Laravel และ DomPDF รองรับภาษาไทย'
+        ];
+
+        $pdf = Pdf::loadView('pdf.document', $data);
+        return $pdf->download('document.pdf');
     }
 
 //    public function login()
